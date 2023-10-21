@@ -28,6 +28,25 @@ function ToDoApp() {
     }
   }, [authState, oktaAuth]); // Update if authState changes
 
+
+  useEffect(() => {
+    if (userInfo) {
+      // Make a GET request to your API to fetch tasks for the authenticated user
+      axios.get('http://localhost:8000/api/tasks', {
+        headers: {
+          Authorization: `Bearer ${oktaBearerToken}`,
+        },
+      })
+        .then((response) => {
+          const userTasks = response.data.tasks;
+          setTasks({ ...tasks, [userInfo.email]: userTasks });
+        })
+        .catch((error) => {
+          console.error('Error fetching tasks:', error);
+        });
+    }
+  }, [userInfo]);
+
   const createTask = (title) => {
     if (userInfo) {
       const email = userInfo.email;
@@ -58,38 +77,6 @@ function ToDoApp() {
         });
     }
   };
-
-
-  // const deleteTaskById = (id) => {
-  //   if (userInfo) {
-  //     // Create a copy of the user's tasks and update it
-  //     const email = userInfo.email;
-  //     const userTasks = tasks[email] || [];
-  //     const updatedTasks = userTasks.filter((task) => task.id !== id);
-
-  //     // Update the tasks object with the updated tasks for this user
-  //     setTasks({ ...tasks, [email]: updatedTasks });
-  //     // console.log(tasks, "From delete task function");
-  //   }
-  // }
-
-  // const editTaskById = (id, newTitle) => {
-  //   if (userInfo) {
-  //     // Create a copy of the user's tasks and update it
-  //     const email = userInfo.email;
-  //     const userTasks = tasks[email] || [];
-  //     const updatedTasks = userTasks.map((task) => {
-  //       if (task.id === id) {
-  //         return { ...task, title: newTitle };
-  //       }
-  //       return task;
-  //     });
-
-  //     // Update the tasks object with the updated tasks for this user
-  //     setTasks({ ...tasks, [email]: updatedTasks });
-  //     // console.log(tasks, "From edit task function");
-  //   }
-  // }
 
   const deleteTaskById = (id) => {
     if (userInfo) {
