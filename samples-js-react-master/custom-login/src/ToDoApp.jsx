@@ -3,45 +3,62 @@ import TaskAdd from './TaskAdd';
 import TaskList from './TaskList';
 import { useEffect } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
+import axios from 'axios';
 
 function ToDoApp() {
   const { authState, oktaAuth } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
-  const [tasks, setTasks] = useState({}); // Use an object to map emails to tasks
+  const [tasks, setTasks] = useState({});
+  const tokenStorage = localStorage.getItem("okta-token-storage");
+  const parsedTokenStorage = JSON.parse(tokenStorage);
+  const oktaBearerToken = parsedTokenStorage.accessToken.accessToken;
+
 
   useEffect(() => {
     if (!authState || !authState.isAuthenticated) {
-      // When the user isn't authenticated, forget any user info and tasks
       setUserInfo(null);
       setTasks({});
     } else {
       oktaAuth.getUser().then((info) => {
         setUserInfo(info);
-        console.log(userInfo, "UserInfo from ToDoApp");
+        // console.log(userInfo, "UserInfo from ToDoApp");
       }).catch((err) => {
         console.error(err);
       });
     }
   }, [authState, oktaAuth]); // Update if authState changes
 
-  console.log(userInfo, "User Info");
-
   const createTask = (title) => {
     if (userInfo) {
-      // Create a copy of the user's tasks and update it
       const email = userInfo.email;
-      const userTasks = tasks[email] || []; // Get the user's tasks or an empty array
+      // console.log(email);
+      const userTasks = tasks[email] || [];
+      // console.log(userTasks);
       const newTask = {
         id: Math.round(Math.random() * 9999),
         title,
       };
-      const updatedTasks = [...userTasks, newTask];
 
-      // Update the tasks object with the new tasks for this user
-      setTasks({ ...tasks, [email]: updatedTasks });
-      console.log(tasks, "From create task function");
+      // Make a POST request to your API to create a task
+      axios.post('http://localhost:8000/api/tasks', newTask, {
+        headers: {
+          Authorization: `Bearer ${oktaBearerToken}`,
+        },
+      })
+        .then((response) => {
+          // Assuming your API returns the newly created task
+          const createdTask = response.data;
+
+          // Update the tasks object with the new task for this user
+          setTasks({ ...tasks, [email]: [...userTasks, createdTask] });
+          // console.log(tasks, "From create task function");
+        })
+        .catch((error) => {
+          console.error('Error creating a task:', error);
+        });
     }
-  }
+  };
+
 
   const deleteTaskById = (id) => {
     if (userInfo) {
@@ -52,7 +69,7 @@ function ToDoApp() {
 
       // Update the tasks object with the updated tasks for this user
       setTasks({ ...tasks, [email]: updatedTasks });
-      console.log(tasks, "From delete task function");
+      // console.log(tasks, "From delete task function");
     }
   }
 
@@ -70,7 +87,7 @@ function ToDoApp() {
 
       // Update the tasks object with the updated tasks for this user
       setTasks({ ...tasks, [email]: updatedTasks });
-      console.log(tasks, "From edit task function");
+      // console.log(tasks, "From edit task function");
     }
   }
 
