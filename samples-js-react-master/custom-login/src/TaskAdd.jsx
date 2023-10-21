@@ -6,21 +6,20 @@ function TaskAdd({ onCreate }) {
 
     const handleChange = (event) => {
         setTitle(event.target.value)
-        console.log(title);
-        onCreate(title);
-        setTitle('');
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
+        onCreate(title);
+        setTitle('');
     }
+
     return (
         <div className="">
             <h3 className="">Add a task</h3>
             <form onSubmit={handleSubmit}>
                 <label>Title</label>
-                <input value={title} onChange={handleChange} type="text" placeholder="Enter task" />
+                <input onChange={handleChange} value={title}/>
                 <button className="" type="submit">Add Task</button>
             </form>
         </div>
