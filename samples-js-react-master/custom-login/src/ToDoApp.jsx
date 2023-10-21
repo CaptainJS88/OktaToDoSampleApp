@@ -6,7 +6,6 @@ function ToDoApp() {
   const [tasks, setTasks] = useState([]);
 
   const createTask = (title) => {
-    console.log("Need to add a task with title:", title);
     const newTasks = [
       ...tasks,
       {
@@ -15,7 +14,6 @@ function ToDoApp() {
       },
     ];
     setTasks(newTasks);
-    console.log(newTasks,"newTasks");
   }
 
   const deleteTaskById = (id) => {
@@ -25,14 +23,24 @@ function ToDoApp() {
     setTasks(updatedTasks);
   }
 
+  const editTaskById = (id, newTitle) => {
+    const updatedTasks = tasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, title: newTitle };
+      }
+      return task; // Return the task unchanged if it's not the one being edited
+    });
+
+    setTasks(updatedTasks);
+  }
+
   return (
     <div id="todo-parent">
       Total Tasks: {tasks.length}
-      <TaskList onDelete={deleteTaskById} tasks={tasks} />
+      <TaskList onEdit={editTaskById} onDelete={deleteTaskById} tasks={tasks} />
       <TaskAdd onCreate={createTask} />
     </div>
   )
 }
 
 export default ToDoApp;
-
