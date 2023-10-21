@@ -21,17 +21,15 @@ function ToDoApp() {
     } else {
       oktaAuth.getUser().then((info) => {
         setUserInfo(info);
-        // console.log(userInfo, "UserInfo from ToDoApp");
       }).catch((err) => {
         console.error(err);
       });
     }
-  }, [authState, oktaAuth]); // Update if authState changes
+  }, [authState, oktaAuth]); 
 
 
   useEffect(() => {
     if (userInfo) {
-      // Make a GET request to your API to fetch tasks for the authenticated user
       axios.get('http://localhost:8000/api/tasks', {
         headers: {
           Authorization: `Bearer ${oktaBearerToken}`,
@@ -50,27 +48,20 @@ function ToDoApp() {
   const createTask = (title) => {
     if (userInfo) {
       const email = userInfo.email;
-      // console.log(email);
       const userTasks = tasks[email] || [];
-      // console.log(userTasks);
       const newTask = {
         id: Math.round(Math.random() * 9999),
         title,
       };
 
-      // Make a POST request to your API to create a task
       axios.post('http://localhost:8000/api/tasks', newTask, {
         headers: {
           Authorization: `Bearer ${oktaBearerToken}`,
         },
       })
         .then((response) => {
-          // Assuming your API returns the newly created task
           const createdTask = response.data;
-
-          // Update the tasks object with the new task for this user
           setTasks({ ...tasks, [email]: [...userTasks, createdTask] });
-          // console.log(tasks, "From create task function");
         })
         .catch((error) => {
           console.error('Error creating a task:', error);
@@ -80,7 +71,6 @@ function ToDoApp() {
 
   const deleteTaskById = (id) => {
     if (userInfo) {
-      // Make a DELETE request to your API to delete the task by ID
       axios
         .delete(`http://localhost:8000/api/tasks/${id}`, {
           headers: {
@@ -88,13 +78,10 @@ function ToDoApp() {
           },
         })
         .then(() => {
-          // Assuming your API successfully deletes the task
-          // You can remove the task from your state
           const email = userInfo.email;
           const userTasks = tasks[email] || [];
           const updatedTasks = userTasks.filter((task) => task.id !== id);
   
-          // Update the tasks object with the updated tasks for this user
           setTasks({ ...tasks, [email]: updatedTasks });
         })
         .catch((error) => {
@@ -103,9 +90,34 @@ function ToDoApp() {
     }
   };
 
+  // const editTaskById = (id, newTitle) => {
+  //   if (userInfo) {
+  //     axios
+  //       .put(`http://localhost:8000/api/tasks/${id}`, { title: newTitle }, {
+  //         headers: {
+  //           Authorization: `Bearer ${oktaBearerToken}`,
+  //         },
+  //       })
+  //       .then((response) => {
+  //         const updatedTask = response.data;
+  //         const email = userInfo.email;
+  //         const userTasks = tasks[email] || [];
+  //         const updatedTasks = userTasks.map((task) => {
+  //           if (task.id === id) {
+  //             return { ...task, title: updatedTask.title };
+  //           }
+  //           return task;
+  //         });
+  
+  //         setTasks({ ...tasks, [email]: updatedTasks });
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error editing the task:', error);
+  //       });
+  //   }
+  // };
   const editTaskById = (id, newTitle) => {
     if (userInfo) {
-      // Make a PUT request to your API to update the task by ID
       axios
         .put(`http://localhost:8000/api/tasks/${id}`, { title: newTitle }, {
           headers: {
@@ -113,20 +125,17 @@ function ToDoApp() {
           },
         })
         .then((response) => {
-          // Assuming your API successfully updates the task
           const updatedTask = response.data;
-  
-          // Create a copy of the user's tasks and update it
           const email = userInfo.email;
           const userTasks = tasks[email] || [];
           const updatedTasks = userTasks.map((task) => {
             if (task.id === id) {
-              return { ...task, title: updatedTask.title };
+              return { ...task, id: id, title: updatedTask.title  };
+              // Make sure to include the 'id' property in the updated task
             }
             return task;
           });
   
-          // Update the tasks object with the updated tasks for this user
           setTasks({ ...tasks, [email]: updatedTasks });
         })
         .catch((error) => {
@@ -134,7 +143,7 @@ function ToDoApp() {
         });
     }
   };
-
+  
   if (userInfo) {
     return (
       <div id="todo-parent">
