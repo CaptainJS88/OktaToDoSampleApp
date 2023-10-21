@@ -18,6 +18,8 @@ const Profile = () => {
   const { authState, oktaAuth } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
 
+  console.log(authState);
+
   useEffect(() => {
     if (!authState || !authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
@@ -25,6 +27,7 @@ const Profile = () => {
     } else {
       oktaAuth.getUser().then((info) => {
         setUserInfo(info);
+        console.log(userInfo,"User infor from profile")
       }).catch((err) => {
         console.error(err);
       });

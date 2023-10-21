@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-function TaskAdd({ onCreate }) {
+function TaskAdd({userInfo, onCreate }) {
     const [title, setTitle] = useState('');
 
     const handleChange = (event) => {

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import TaskEdit from './TaskEdit';
 
 function TaskShow({ task, onDelete, onEdit }) {
     const [showEdit, setShowEdit] = useState(false);
