@@ -19,6 +19,7 @@ import './polyfills';
 import App from './App';
 import config from './config';
 import './index.css';
+import './ToDoApp.css'
 
 /* eslint-disable react/jsx-filename-extension */
 ReactDOM.render(

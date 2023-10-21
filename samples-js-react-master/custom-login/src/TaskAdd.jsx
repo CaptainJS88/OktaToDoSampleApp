@@ -15,12 +15,12 @@ function TaskAdd({userInfo, onCreate }) {
     }
 
     return (
-        <div className="">
-            <h3 className="">Add a task</h3>
-            <form onSubmit={handleSubmit}>
-                <label>Title</label>
-                <input onChange={handleChange} value={title}/>
-                <button className="" type="submit">Add Task</button>
+        <div className="todo-taskadd">
+            <h2 className="">Add a task</h2>
+            <form id="todo-form" onSubmit={handleSubmit}>
+                <label>Task Name: </label>
+                <input required className="todo-input" placeholder="Type new task name here" onChange={handleChange} value={title}/>
+                <button className="todo-button" type="submit">Create a New Task +</button>
             </form>
         </div>
     );

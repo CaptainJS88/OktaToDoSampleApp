@@ -25,7 +25,7 @@ function ToDoApp() {
         console.error(err);
       });
     }
-  }, [authState, oktaAuth]); 
+  }, [authState, oktaAuth]);
 
 
   useEffect(() => {
@@ -81,7 +81,7 @@ function ToDoApp() {
           const email = userInfo.email;
           const userTasks = tasks[email] || [];
           const updatedTasks = userTasks.filter((task) => task.id !== id);
-  
+
           setTasks({ ...tasks, [email]: updatedTasks });
         })
         .catch((error) => {
@@ -90,32 +90,6 @@ function ToDoApp() {
     }
   };
 
-  // const editTaskById = (id, newTitle) => {
-  //   if (userInfo) {
-  //     axios
-  //       .put(`http://localhost:8000/api/tasks/${id}`, { title: newTitle }, {
-  //         headers: {
-  //           Authorization: `Bearer ${oktaBearerToken}`,
-  //         },
-  //       })
-  //       .then((response) => {
-  //         const updatedTask = response.data;
-  //         const email = userInfo.email;
-  //         const userTasks = tasks[email] || [];
-  //         const updatedTasks = userTasks.map((task) => {
-  //           if (task.id === id) {
-  //             return { ...task, title: updatedTask.title };
-  //           }
-  //           return task;
-  //         });
-  
-  //         setTasks({ ...tasks, [email]: updatedTasks });
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error editing the task:', error);
-  //       });
-  //   }
-  // };
   const editTaskById = (id, newTitle) => {
     if (userInfo) {
       axios
@@ -130,12 +104,12 @@ function ToDoApp() {
           const userTasks = tasks[email] || [];
           const updatedTasks = userTasks.map((task) => {
             if (task.id === id) {
-              return { ...task, id: id, title: updatedTask.title  };
+              return { ...task, id: id, title: updatedTask.title };
               // Make sure to include the 'id' property in the updated task
             }
             return task;
           });
-  
+
           setTasks({ ...tasks, [email]: updatedTasks });
         })
         .catch((error) => {
@@ -143,15 +117,18 @@ function ToDoApp() {
         });
     }
   };
-  
+
   if (userInfo) {
     return (
-      <div id="todo-parent">
-        <h3>Welcome {userInfo.family_name} !</h3>
-        <h4>Total Tasks: {tasks[userInfo.email]?.length || 0}</h4>
-        <TaskList user={userInfo} onEdit={editTaskById} onDelete={deleteTaskById} tasks={tasks[userInfo.email] || []} />
-        <TaskAdd user={userInfo} onCreate={createTask} />
-      </div>
+      <><div className="flex-row">
+        <div id="todo-greeting">Welcome {userInfo.family_name} !</div>
+        <div id="todo-totaltasks">Total Tasks: {tasks[userInfo.email]?.length || 0}</div>
+      </div><div id="todo-parent">
+          <TaskList user={userInfo} onEdit={editTaskById} onDelete={deleteTaskById} tasks={tasks[userInfo.email] || []} />
+          <div className="flex-column">
+            <TaskAdd user={userInfo} onCreate={createTask} />
+          </div>
+        </div></>
     );
   } else {
     return <div>Loading To-Do Lists...</div>;

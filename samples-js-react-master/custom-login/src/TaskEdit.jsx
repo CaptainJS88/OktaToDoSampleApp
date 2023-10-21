@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 function TaskEdit({task, onSubmit}) {
     const [title, setTitle] = useState(task.title);
