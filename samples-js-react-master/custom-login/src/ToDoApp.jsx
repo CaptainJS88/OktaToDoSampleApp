@@ -60,36 +60,93 @@ function ToDoApp() {
   };
 
 
+  // const deleteTaskById = (id) => {
+  //   if (userInfo) {
+  //     // Create a copy of the user's tasks and update it
+  //     const email = userInfo.email;
+  //     const userTasks = tasks[email] || [];
+  //     const updatedTasks = userTasks.filter((task) => task.id !== id);
+
+  //     // Update the tasks object with the updated tasks for this user
+  //     setTasks({ ...tasks, [email]: updatedTasks });
+  //     // console.log(tasks, "From delete task function");
+  //   }
+  // }
+
+  // const editTaskById = (id, newTitle) => {
+  //   if (userInfo) {
+  //     // Create a copy of the user's tasks and update it
+  //     const email = userInfo.email;
+  //     const userTasks = tasks[email] || [];
+  //     const updatedTasks = userTasks.map((task) => {
+  //       if (task.id === id) {
+  //         return { ...task, title: newTitle };
+  //       }
+  //       return task;
+  //     });
+
+  //     // Update the tasks object with the updated tasks for this user
+  //     setTasks({ ...tasks, [email]: updatedTasks });
+  //     // console.log(tasks, "From edit task function");
+  //   }
+  // }
+
   const deleteTaskById = (id) => {
     if (userInfo) {
-      // Create a copy of the user's tasks and update it
-      const email = userInfo.email;
-      const userTasks = tasks[email] || [];
-      const updatedTasks = userTasks.filter((task) => task.id !== id);
-
-      // Update the tasks object with the updated tasks for this user
-      setTasks({ ...tasks, [email]: updatedTasks });
-      // console.log(tasks, "From delete task function");
+      // Make a DELETE request to your API to delete the task by ID
+      axios
+        .delete(`http://localhost:8000/api/tasks/${id}`, {
+          headers: {
+            Authorization: `Bearer ${oktaBearerToken}`,
+          },
+        })
+        .then(() => {
+          // Assuming your API successfully deletes the task
+          // You can remove the task from your state
+          const email = userInfo.email;
+          const userTasks = tasks[email] || [];
+          const updatedTasks = userTasks.filter((task) => task.id !== id);
+  
+          // Update the tasks object with the updated tasks for this user
+          setTasks({ ...tasks, [email]: updatedTasks });
+        })
+        .catch((error) => {
+          console.error('Error deleting the task:', error);
+        });
     }
-  }
+  };
 
   const editTaskById = (id, newTitle) => {
     if (userInfo) {
-      // Create a copy of the user's tasks and update it
-      const email = userInfo.email;
-      const userTasks = tasks[email] || [];
-      const updatedTasks = userTasks.map((task) => {
-        if (task.id === id) {
-          return { ...task, title: newTitle };
-        }
-        return task;
-      });
-
-      // Update the tasks object with the updated tasks for this user
-      setTasks({ ...tasks, [email]: updatedTasks });
-      // console.log(tasks, "From edit task function");
+      // Make a PUT request to your API to update the task by ID
+      axios
+        .put(`http://localhost:8000/api/tasks/${id}`, { title: newTitle }, {
+          headers: {
+            Authorization: `Bearer ${oktaBearerToken}`,
+          },
+        })
+        .then((response) => {
+          // Assuming your API successfully updates the task
+          const updatedTask = response.data;
+  
+          // Create a copy of the user's tasks and update it
+          const email = userInfo.email;
+          const userTasks = tasks[email] || [];
+          const updatedTasks = userTasks.map((task) => {
+            if (task.id === id) {
+              return { ...task, title: updatedTask.title };
+            }
+            return task;
+          });
+  
+          // Update the tasks object with the updated tasks for this user
+          setTasks({ ...tasks, [email]: updatedTasks });
+        })
+        .catch((error) => {
+          console.error('Error editing the task:', error);
+        });
     }
-  }
+  };
 
   if (userInfo) {
     return (
