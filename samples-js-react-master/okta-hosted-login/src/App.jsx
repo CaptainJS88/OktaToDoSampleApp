@@ -27,7 +27,7 @@ import AuthRequiredModal from './AuthRequiredModal';
 const oktaAuth = new OktaAuth(config.oidc);
 
 const App = () => {
-  console.log("ok");
+  console.log("ENV Variables set, both servers running!");
   const [corsErrorModalOpen, setCorsErrorModalOpen] = React.useState(false);
   const [authRequiredModalOpen, setAuthRequiredModalOpen] = React.useState(false);
 
