@@ -23,6 +23,7 @@ import Navbar from './Navbar';
 import Profile from './Profile';
 import CorsErrorModal from './CorsErrorModal';
 import AuthRequiredModal from './AuthRequiredModal';
+import ToDoApp from './ToDoApp';
 
 const oktaAuth = new OktaAuth(config.oidc);
 
@@ -63,6 +64,7 @@ const App = () => {
       restoreOriginalUri={restoreOriginalUri}
     >
       <Navbar {...{ setCorsErrorModalOpen }} />
+      
       <CorsErrorModal {...{ corsErrorModalOpen, setCorsErrorModalOpen }} />
       <AuthRequiredModal {...{ authRequiredModalOpen, setAuthRequiredModalOpen, triggerLogin }} />
       <Container text style={{ marginTop: '7em' }}>
@@ -72,6 +74,7 @@ const App = () => {
           <Route path="/login" render={() => <CustomLoginComponent {...{ setCorsErrorModalOpen }} />} />
           <SecureRoute path="/messages" component={Messages} />
           <SecureRoute path="/profile" component={Profile} />
+          <SecureRoute path="/todoapp" component={ToDoApp} />
         </Switch>
       </Container>
     </Security>
