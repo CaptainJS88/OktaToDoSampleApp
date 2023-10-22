@@ -31,7 +31,7 @@ function TaskShow({ task, onDelete, onEdit, index }) {
             {showEdit ? (
                 <div id="todo-edit">
                     <form id="todo-form-edit" onSubmit={handleEditSubmit}>
-                        <input className="todo-input" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
+                        <input required className="todo-input" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
                         <button className="todo-button" type="submit">Save</button>
                     </form>
                 </div>
