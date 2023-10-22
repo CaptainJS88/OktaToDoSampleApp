@@ -118,6 +118,7 @@ div#todo-tasklist {
     border-radius: 5px;
     padding: 20px;
     gap: 20px;
+    height: 900px;
 }
 
 button#todo-edit {
@@ -220,4 +221,72 @@ input.todo-input {
 
 label {
     font-weight: bold;
+}
+
+/* Widget CSS */
+main#okta-sign-in {
+    background: black !IMPORTANT;
+    color: white !important;
+}
+
+h2.okta-form-title.o-form-head {
+    color: white !IMPORTANT;
+}
+
+label {
+    color:#16deee;
+}
+
+input#okta-signin-submit {
+    background: black;
+    color: white;
+}
+
+.o-form-button-bar {
+    background: black;
+}
+
+input#okta-signin-submit {
+    background: black !IMPORTANT;
+    border: 3px solid #16deee !important;
+    border-radius: 10px !Important;
+}
+
+main#okta-sign-in {
+    border: 3px solid #16deee;
+    border-radius: 10px;
+}
+
+main#okta-sign-in {
+    border: 3px solid #16deee !important;
+}
+
+.okta-sign-in-header.auth-header {
+    border-bottom: 3px solid #16deee !important;
+}
+
+input#okta-signin-username {
+    background: black !IMPORTANT;
+    border: 1px solid #16deee !important;
+    color: white !IMPORTANT;
+}
+
+input#okta-signin-password {
+    background: black !IMPORTANT;
+    border: 1px solid #16deee !important;
+    color: white !IMPORTANT;
+}
+a.link.help.js-help {
+    color:  #16deee !important;
+    text-decoration: underline !important;
+}
+
+input#input42 {
+    background: black !IMPORTANT;
+    color:  #16deee !important;
+}
+
+h2.okta-form-title.o-form-head {
+    color:  #16deee !important;
+    text-decoration: underline;
 }
