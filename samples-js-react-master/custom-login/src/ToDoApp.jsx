@@ -105,7 +105,6 @@ function ToDoApp() {
           const updatedTasks = userTasks.map((task) => {
             if (task.id === id) {
               return { ...task, id: id, title: updatedTask.title };
-              // Make sure to include the 'id' property in the updated task
             }
             return task;
           });
