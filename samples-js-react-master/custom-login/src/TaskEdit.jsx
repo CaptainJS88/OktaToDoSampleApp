@@ -16,7 +16,7 @@ function TaskEdit({task, onSubmit}) {
        <div>
         <form onSubmit={handleEditSubmit}>
             <label>Enter New Title</label>
-            <input value={title} onChange={handleChange}></input>
+            <input required value={title} onChange={handleChange}></input>
             <button>Save</button>
         </form>
        </div>
