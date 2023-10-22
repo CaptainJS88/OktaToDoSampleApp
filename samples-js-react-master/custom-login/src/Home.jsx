@@ -61,7 +61,7 @@ const Home = () => {
 
   return (
     <div id="home">
-      <div>
+      <div id="to-do-home">
       <svg xmlns="http://www.w3.org/2000/svg" width="120" height="60"><path d="M153.7 54.5c-17.3 0-31.4 14-31.4 31.4a31.33 31.33 0 1 0 62.8 0c0-17.4-14.1-31.4-31.4-31.4zm0 47.1c-8.7 0-15.7-7-15.7-15.7s7-15.7 15.7-15.7 15.7 7 15.7 15.7-7 15.7-15.7 15.7zm55.1-5.2c0-2.5 3-3.7 4.7-1.9l20.9 21.8c.2.2.4.5 1.1.7.3.1.8.1 1.3.1H251c2.5 0 3.3-2.9 2.1-4.4l-23.5-24-1.2-1.3c-2.7-3.2-2.4-4.4.7-7.7L247.8 59c1.2-1.5.4-4.4-2.2-4.4h-12.8c-.5 0-.9 0-1.2.1-.8.2-1 .5-1.2.7-.1.1-10.4 11.2-16.7 18-1.7 1.9-4.8.6-4.8-1.9V35.9c0-1.8-1.5-2.5-2.7-2.5h-10.5c-1.8 0-2.7 1.2-2.7 2.3v79c0 1.8 1.5 2.3 2.7 2.3h10.5c1.6 0 2.7-1.2 2.7-2.4v-.8zm85.6 17.9l-1.1-10.5c-.2-1.4-1.5-2.4-2.9-2.2l-2.4.2c-8.4 0-15.2-6.6-15.6-14.8V73.3c0-1.7 1.2-3 2.9-3h14c1 0 2.5-.8 2.5-2.7v-9.9c0-1.9-1.2-3-2.3-3h-14.1c-1.6 0-3-1.2-3-2.8V36c0-1-.7-2.5-2.7-2.5h-10.4c-1.3 0-2.6.8-2.6 2.4V87c.4 16.9 14.3 30.5 31.4 30.5 1.4 0 2.8-.1 4.2-.3 1.2-.2 2.3-1.5 2.1-2.9zm75.6-13.2c-8.9 0-10.2-3.2-10.2-15.1V57.3c0-1-.7-2.7-2.7-2.7h-10.5c-1.3 0-2.7 1-2.7 2.7v1.3c-4.6-2.6-9.8-4.1-15.5-4.1-17.3 0-31.4 14-31.4 31.4a31.33 31.33 0 0 0 31.4 31.4c7.8 0 14.9-2.8 20.4-7.5 3 4.5 7.7 7.5 15.1 7.5 1.3 0 8 .2 8-2.9v-11.2c-.1-1-.9-2.1-1.9-2.1zm-41.6.5c-8.7 0-15.7-7-15.7-15.7s7-15.7 15.7-15.7 15.7 7 15.7 15.7c-.1 8.7-7.1 15.7-15.7 15.7z" transform="matrix(.400641 0 0 .400641 -38.998399 -.228366)" fill="#007dc1"/></svg>
         <Header as="h1">Okta To Do Sample App</Header>
 
@@ -73,7 +73,7 @@ const Home = () => {
 
         {authState.isAuthenticated && userInfo
         && (
-        <div>
+        <div className="flex-column">
           <p id="welcome">
             Welcome, &nbsp;
             {userInfo.name}
@@ -96,20 +96,11 @@ const Home = () => {
 
         {!authState.isAuthenticated
         && (
-        <div>
-          <p>If you&lsquo;re viewing this page then you have successfully started this React application.</p>
-          <p>
-            <span>This example shows you how to use the </span>
-            <a href="https://github.com/okta/okta-react/tree/master">Okta React Library</a>
-            <span> to add the </span>
-            <a href="https://developer.okta.com/docs/guides/implement-auth-code-pkce">PKCE Flow</a>
-            <span> to your application.</span>
-          </p>
-          <p>
-            When you click the login button below, you will be presented the login page on the Okta Sign-In Widget hosted within the application.
-            After you authenticate, you will be logged in to this application with an ID token and access token. These tokens will be stored in local storage and can be retrieved at a later time.
-          </p>
-          <Button id="login-button" primary onClick={login}>Login</Button>
+        <div id="okta-login-page-parent" className='flex-column'>
+          <h2>
+            Click the login button below to access your to do tasks!
+          </h2>
+          <Button className="todo-button" id="todo-button-login" primary onClick={login}>Login</Button>
         </div>
         )}
 
